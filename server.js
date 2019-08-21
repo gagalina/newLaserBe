@@ -51,6 +51,20 @@ todoRoutes.route('/add').post(function (req, res) {
         });
 })
 
+todoRoutes.route('/delete/:id').delete(function (req, res) {
+    let id = req.params.id;
+
+    Todo.deleteOne({ id: id }, function (err) {
+        console.log(id)
+        if (err) return err;
+    });
+    Todo.findOneAndDelete({ id: id }, (err, result) => {
+        if (err) return res.send(500, err);
+        res.send('A darth vader quote got deleted')
+    })
+
+})
+
 todoRoutes.route('/update/:id').post(function (req, res) {
     Todo.findById(req.params.id, function (err, todo) {
         if (!todo) {
